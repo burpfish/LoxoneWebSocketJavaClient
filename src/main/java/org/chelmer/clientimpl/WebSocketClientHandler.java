@@ -22,10 +22,12 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> implements LoxoneEventHandler {
+    public static final int KEEPALIVE_DELAY = 60 * 3 * 1000;
     private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketClientHandler.class);
-
     private final WebSocketClientHandshaker handshaker;
     private final ObjectMapper mapper;
     private final String userName;
@@ -34,6 +36,8 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
     private final UuidComponentRegistry registry;
     private ChannelPromise handshakeFuture;
     private MessageNotificationItem latestMessageNotification = MessageNotificationItem.nullValue();
+    private Channel channel;
+    private Timer keepaliveTimer;
 
     public WebSocketClientHandler(WebSocketClientHandshaker handshaker, String userName, String password) {
         this.handshaker = handshaker;
@@ -50,11 +54,24 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
+        channel = ctx.channel();
         handshaker.handshake(ctx.channel());
+
+        TimerTask keepaliveTask = new TimerTask() {
+            public void run() {
+                sendTextMessage("keepalive");
+            }
+        };
+
+        keepaliveTimer = new Timer();
+        keepaliveTimer.schedule(keepaliveTask, KEEPALIVE_DELAY, KEEPALIVE_DELAY);
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
+        keepaliveTimer.cancel();
+        keepaliveTimer = null;
+        channel = null;
         LOGGER.debug("WebSocket Client disconnected!");
     }
 
@@ -68,11 +85,11 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Object msg) {
-        handleIncoming(ctx.channel(), msg);
+        handleIncoming(msg);
     }
 
-    private void handleIncoming(Channel ch, Object msg) {
-        if (handleHandshake(ch, msg)) {
+    private void handleIncoming(Object msg) {
+        if (handleHandshake(channel, msg)) {
             return;
         }
 
@@ -80,12 +97,11 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
         if (frame instanceof BinaryWebSocketFrame) {
             handleBinaryMessage(frame.content());
         } else if (frame instanceof TextWebSocketFrame) {
-            handleTextMessage(ch, ((TextWebSocketFrame) frame).text());
+            handleTextMessage(((TextWebSocketFrame) frame).text());
         } else if (frame instanceof PongWebSocketFrame) {
             LOGGER.debug("WebSocket Client received pong");
         } else if (frame instanceof CloseWebSocketFrame) {
             LOGGER.debug("WebSocket Client received closing");
-            ch.close();
         } else {
             LOGGER.warn("WebSocket Client received unknown message: " + frame);
         }
@@ -105,11 +121,11 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
         return false;
     }
 
-    void handleTextMessage(Channel ch, String message) {
+    void handleTextMessage(String message) {
         LOGGER.debug("WebSocket Client received text message: " + message);
         textMessageIncoming(message);
 
-        if (handleAuthHashResponse(message, ch)) {
+        if (handleAuthHashResponse(message)) {
             return;
         }
 
@@ -136,7 +152,7 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
         return isStatusResponse;
     }
 
-    private boolean handleAuthHashResponse(String message, Channel channel) {
+    private boolean handleAuthHashResponse(String message) {
         boolean isAuthHashResponse = isAuthHashResponse(message);
 
         if (isAuthHashResponse) {
@@ -148,16 +164,20 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
 
             byte[] key = DatatypeConverter.parseHexBinary(response.getValue());
             String hashed = hasher.hash(String.format("%s:%s", userName, password), key);
-            sendTextMessage("authenticate/" + hashed, channel);
+            sendTextMessage("authenticate/" + hashed);
             handshakeFuture.setSuccess();
         }
 
         return isAuthHashResponse;
     }
 
-    void sendTextMessage(String msg, Channel channel) {
-        WebSocketFrame frame = new TextWebSocketFrame(msg);
-        channel.writeAndFlush(frame);
+    void sendTextMessage(String msg) {
+        if (channel != null) {
+            WebSocketFrame frame = new TextWebSocketFrame(msg);
+            channel.writeAndFlush(frame);
+        } else {
+            LOGGER.error("Channel is null - Could not send text massage: " + msg);
+        }
     }
 
 
@@ -186,7 +206,9 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
         MessageType messageType = latestMessageNotification.getMessageType();
         long messageLength = latestMessageNotification.getLength();
 
-        if (bytes.capacity() == 8 && bytes.getByte(0) == 0x03) {
+        if (messageType == MessageType.KEEPALIVE_RESPONSE) {
+            LOGGER.trace("Keepalive response incoming");
+        } else if (bytes.capacity() == 8 && bytes.getByte(0) == 0x03) {
             handleNotificationMessage(bytes);
         } else if (messageType == MessageType.VALUE_TABLE) {
             handleValueTableMessage(bytes, messageLength);

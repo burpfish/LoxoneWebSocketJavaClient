@@ -35,6 +35,15 @@ public class State implements UuidComponent {
         return control.getName() + "(" + name + ")";
     }
 
+    @Override
+    public String toString() {
+        return "State{" +
+                "uuids=" + uuids +
+                ", name='" + name + '\'' +
+                ", control=" + control +
+                '}';
+    }
+
     public Control getControl() {
         return control;
     }

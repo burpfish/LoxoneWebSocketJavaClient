@@ -2,7 +2,6 @@ package org.chelmer.clientimpl;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
 import org.chelmer.LoxoneEventHandler;
@@ -35,7 +34,6 @@ public class PlaybackTest {
     private final Logger LOGGER = LoggerFactory.getLogger(PlaybackTest.class);
     private final Pattern fileNumberPattern = Pattern.compile("(\\d+)(_.*)");
 
-    private Channel mockChannel = mock(Channel.class);
     private WebSocketClientHandshaker mockHandshaker = mock(WebSocketClientHandshaker.class);
 
     private LoxoneEventHandler eventHandler = new LoxoneEventHandler() {
@@ -81,7 +79,7 @@ public class PlaybackTest {
             if (message instanceof ByteBuf) {
                 underTest.handleBinaryMessage((ByteBuf) message);
             } else if (message instanceof String) {
-                underTest.handleTextMessage(mockChannel, (String) message);
+                underTest.handleTextMessage((String) message);
             } else {
                 throw new RuntimeException("Unexpected data when playing back");
             }

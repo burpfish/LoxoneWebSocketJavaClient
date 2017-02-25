@@ -101,8 +101,6 @@ public class DataMessageByteBuff {
                     }
                 }
             }
-
-            System.out.println(">" + args[i]);
         }
 
         try {

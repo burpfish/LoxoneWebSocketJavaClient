@@ -28,6 +28,7 @@ public class LoxoneConfig {
     private final WeatherServer weatherServer;
     private final Map<Integer, Time> times;
     private final Map<String, Autopilot> autopilot;
+
     public LoxoneConfig(LocalDateTime lastModified, MsInfo msInfo, Map<String, LoxUuid> globalStates, Map<Integer, String> operatingModes, Map<String, Room> rooms, Map<String, Category> cats, Map<String, Control> controls, WeatherServer weatherServer, Map<Integer, Time> times, Map<String, Autopilot> autopilot) {
         this.lastModified = lastModified;
         this.msInfo = msInfo;

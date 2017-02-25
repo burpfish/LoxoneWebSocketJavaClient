@@ -122,6 +122,15 @@ public class Control implements UuidComponent {
         this.roomUuid = roomUuid;
     }
 
+    @Override
+    public String toString() {
+        return "Control{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                ", uuid=" + uuid +
+                '}';
+    }
+
     @JacksonInject
     public void setRegistry(UuidComponentRegistry registry) {
         this.registry = registry;
