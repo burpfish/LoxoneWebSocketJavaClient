@@ -29,11 +29,6 @@ import static org.mockito.Mockito.mock;
 
 /**
  * Created by burfo on 23/02/2017.
- * <p>
- * call
- * handleBinaryMessage(frame.content());
- * handleTextMessage(ch, (TextWebSocketFrame) frame);
- * in LoxoneWebSocketClientHandler
  */
 public class PlaybackTest {
     private final static String DIR = "recordplayback";

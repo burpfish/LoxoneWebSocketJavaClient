@@ -200,7 +200,7 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
     }
 
     private void handleWeatherTableMessage(ByteBuf bytes, long messageLength) {
-        DataMessageByteBuff dmbb = new DataMessageByteBuff(false, registry);
+        DataMessageByteBuff dmbb = new DataMessageByteBuff(registry);
 
         List<WeatherTimerItem> values = new ArrayList<>();
         int startingIndex = bytes.readerIndex();
@@ -226,7 +226,7 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
     }
 
     private void handleDaytimeTimerMessage(ByteBuf bytes, long messageLength) {
-        DataMessageByteBuff dmbb = new DataMessageByteBuff(false, registry);
+        DataMessageByteBuff dmbb = new DataMessageByteBuff(registry);
 
         List<EventTimerItem> values = new ArrayList<>();
         int startingIndex = bytes.readerIndex();

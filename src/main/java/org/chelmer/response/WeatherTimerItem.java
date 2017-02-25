@@ -9,14 +9,14 @@ import java.util.List;
  */
 public class WeatherTimerItem {
     private final LoxUuid uuid;
-    private final long lastUpdate; // EEEEEEEEK. This is unsigned!!!
-    private final long nEntries; // NOT unsigned!!!
+    private final long lastUpdate;
+    private final long nEntries;
     private List<WeatherTimerItemEntry> entries;
 
-    public WeatherTimerItem(LoxUuid uuid, long lastUpdate_unsigned, long nEntries_signed) {
+    public WeatherTimerItem(LoxUuid uuid, long lastUpdate, long nEntries) {
         this.uuid = uuid;
-        this.lastUpdate = lastUpdate_unsigned;
-        this.nEntries = nEntries_signed;
+        this.lastUpdate = lastUpdate;
+        this.nEntries = nEntries;
     }
 
     @Override

@@ -28,16 +28,10 @@ import java.util.List;
  * </ul>
  */
 public class DataMessageByteBuff {
-    private final boolean unsigned;
     private final UuidComponentRegistry registry;
 
-    public DataMessageByteBuff(boolean unsigned, UuidComponentRegistry registry) {
-        this.unsigned = unsigned;
-        this.registry = registry;
-    }
-
     public DataMessageByteBuff(UuidComponentRegistry registry) {
-        this(true, registry);
+        this.registry = registry;
     }
 
     public <T> List<T> readObjects(ByteBuf bytes, Class<T> clazz, long messageLen) {
@@ -75,19 +69,10 @@ public class DataMessageByteBuff {
             Parameter param = parameters[i];
             Class<?> type = param.getType();
 
-            // todo: should be annotation
-            boolean unsigned = this.unsigned;
-            if (param.getName().endsWith("_unsigned")) {
-                unsigned = true;
-            }
-            if (param.getName().endsWith("_signed")) {
-                unsigned = false;
-            }
-
             if (type.equals(Integer.class) || type.equals(Integer.TYPE)) {
-                args[i] = (unsigned ? bytes.readUnsignedShortLE() : bytes.readShort());
+                args[i] = bytes.readUnsignedShortLE();
             } else if (type.equals(Long.class) || type.equals(Long.TYPE)) {
-                args[i] = (unsigned ? bytes.readUnsignedIntLE() : bytes.readIntLE());
+                args[i] = bytes.readUnsignedIntLE();
             } else if (type.equals(Double.class) || type.equals(Double.TYPE)) {
                 args[i] = Double.longBitsToDouble(bytes.readLongLE());
             } else if (type.equals(Byte.class) || type.equals(Byte.TYPE)) {
@@ -116,6 +101,8 @@ public class DataMessageByteBuff {
                     }
                 }
             }
+
+            System.out.println(">" + args[i]);
         }
 
         try {
