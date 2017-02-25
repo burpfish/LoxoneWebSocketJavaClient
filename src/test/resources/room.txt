@@ -1,0 +1,7 @@
+{  
+         "uuid":"0e89af02-00b9-c819-ffff504f94000000",
+         "name":"Central",
+         "image":"00000000-0000-0031-2100000000000000.svg",
+         "defaultRating":0,
+         "isFavorite":false
+}

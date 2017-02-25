@@ -1,0 +1,9 @@
+{  
+         "uuid":"0d6a2dad-00af-0287-ffff504f94000000",
+         "name":"Audio",
+         "image":"00000000-0000-0006-2000000000000000.svg",
+         "defaultRating":7,
+         "isFavorite":true,
+         "type":"multimedia",
+         "color":"#83B817"
+}

@@ -1,0 +1,6 @@
+
+* signed vs unsigned
+* Sort out tests (including record binary files, mean bean)
+* Update the state of the thing when we get an update request
+* Add keep alive
+* Add a better way to keep it alive (with a means to shut it down)

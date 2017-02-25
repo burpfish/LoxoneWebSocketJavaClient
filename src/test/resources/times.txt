@@ -1,0 +1,152 @@
+   "times":{  
+      "266":{  
+         "id":266,
+         "name":"Days since 2009",
+         "analog":true
+      },
+      "267":{  
+         "id":267,
+         "name":"Year",
+         "analog":true
+      },
+      "268":{  
+         "id":268,
+         "name":"Month",
+         "analog":true
+      },
+      "269":{  
+         "id":269,
+         "name":"Day",
+         "analog":true
+      },
+      "270":{  
+         "id":270,
+         "name":"Weekday",
+         "analog":true
+      },
+      "271":{  
+         "id":271,
+         "name":"Calendar type",
+         "analog":true
+      },
+      "272":{  
+         "id":272,
+         "name":"Minutes past midnight",
+         "analog":true
+      },
+      "273":{  
+         "id":273,
+         "name":"Hour",
+         "analog":true
+      },
+      "274":{  
+         "id":274,
+         "name":"Minutes",
+         "analog":true
+      },
+      "275":{  
+         "id":275,
+         "name":"Seconds",
+         "analog":true
+      },
+      "276":{  
+         "id":276,
+         "name":"Seconds since boot",
+         "analog":true
+      },
+      "277":{  
+         "id":277,
+         "name":"Time of sunrise",
+         "analog":true
+      },
+      "278":{  
+         "id":278,
+         "name":"Time of sunset",
+         "analog":true
+      },
+      "281":{  
+         "id":281,
+         "name":"Daylight",
+         "analog":false
+      },
+      "282":{  
+         "id":282,
+         "name":"Daylight 30min",
+         "analog":false
+      },
+      "283":{  
+         "id":283,
+         "name":"Time of dawn",
+         "analog":true
+      },
+      "284":{  
+         "id":284,
+         "name":"Time of dusk",
+         "analog":true
+      },
+      "285":{  
+         "id":285,
+         "name":"Sun elevation",
+         "analog":true
+      },
+      "286":{  
+         "id":286,
+         "name":"Sun direction",
+         "analog":true
+      },
+      "287":{  
+         "id":287,
+         "name":"Start pulse",
+         "analog":false
+      },
+      "288":{  
+         "id":288,
+         "name":"Annual pulse",
+         "analog":false
+      },
+      "289":{  
+         "id":289,
+         "name":"Pulse for month",
+         "analog":false
+      },
+      "290":{  
+         "id":290,
+         "name":"Pulse for day",
+         "analog":false
+      },
+      "291":{  
+         "id":291,
+         "name":"Pulse for hour",
+         "analog":false
+      },
+      "292":{  
+         "id":292,
+         "name":"Pulse for minute",
+         "analog":false
+      },
+      "293":{  
+         "id":293,
+         "name":"Pulse for second",
+         "analog":false
+      },
+      "294":{  
+         "id":294,
+         "name":"Pulse for sunrise",
+         "analog":false
+      },
+      "295":{  
+         "id":295,
+         "name":"Pulse for sunset",
+         "analog":false
+      },
+      "298":{  
+         "id":298,
+         "name":"Pulse for dawn",
+         "analog":false
+      },
+      "299":{  
+         "id":299,
+         "name":"Pulse for dusk",
+         "analog":false
+      }
+   }

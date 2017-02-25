@@ -1,0 +1,34 @@
+{  
+         "name":"Danny's lighing controller",
+         "type":"LightController",
+         "uuidAction":"0e4fa2f3-00fc-f9a4-ffff504f94000000",
+         "room":"0d6a2dad-00dd-030d-ffff504f94000000",
+         "cat":"0d6a2dad-00af-0277-ffff504f94000000",
+         "defaultRating":0,
+         "isFavorite":false,
+         "isSecured":false,
+         "presence":true,
+         "details":{  
+
+         },
+         "states":{  
+            "activeScene":"0e4fa2f3-00fc-f9a1-fffff4f3322cc74f",
+            "sceneList":"0e4fa2f3-00fc-f966-fffff4f3322cc74f",
+            "presenceFrom":"0e4fa2f3-00fc-f967-fffff4f3322cc74f",
+            "presenceTo":"0e4fa2f3-00fc-f968-fffff4f3322cc74f"
+         },
+         "subControls":{  
+            "0e4fa2f3-00fc-f9a4-ffff504f94000000/AI1":{  
+               "name":"Dannys bedroom light (central)",
+               "type":"Switch",
+               "uuidAction":"0e4fa2f3-00fc-f9a4-ffff504f94000000/AI1",
+               "defaultRating":0,
+               "isFavorite":false,
+               "isSecured":false,
+               "presence":true,
+               "states":{  
+                  "active":"0e4fa2f3-00fc-f995-fffff4f3322cc74f"
+               }
+            }
+         }
+      }

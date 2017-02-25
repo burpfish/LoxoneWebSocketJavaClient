@@ -1,0 +1,10 @@
+{  
+      "0f06dc1c-00f6-12f0-ffff504f94102a7d":{  
+         "name":"Autopilots",
+         "uuidAction":"0f06dc1c-00f6-12f0-ffff504f94102a7d",
+         "states":{  
+            "changed":"0f081db0-0137-0cd7-ffff504f94102a7d",
+            "history":"0f081db0-0137-0cd8-ffff504f94102a7d"
+         }
+      }
+   }

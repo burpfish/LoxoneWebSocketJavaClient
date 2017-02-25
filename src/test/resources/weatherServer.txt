@@ -1,0 +1,159 @@
+{  
+      "states":{  
+         "actual":"0d7218bf-01b4-d90a-ffff504f94000000",
+         "forecast":"0d7218bf-01b4-d909-ffff2346c63cedd1"
+      },
+      "format":{  
+         "relativeHumidity":"%.0f%%",
+         "temperature":"%.1f°",
+         "windSpeed":"%.0fkm/h",
+         "precipitation":"%.1fl/m²/h",
+         "barometricPressure":"%.0fhPa"
+      },
+      "weatherTypeTexts":{  
+         "1":"Clear Sky",
+         "2":"Clear",
+         "3":"Partly Cloudy",
+         "4":"Heavy Cloud Cover",
+         "5":"Cloudy",
+         "6":"Fog",
+         "7":"Overcast",
+         "8":"not in use",
+         "9":"not in use",
+         "10":"Light rain",
+         "11":"Rain",
+         "12":"Heavy rain",
+         "13":"Drizzle",
+         "14":"Sleet",
+         "15":"Heavy freezing rain",
+         "16":"Light shower",
+         "17":"Heavy rain showers",
+         "18":"Thunderstorms",
+         "19":"Strong thunderstorms",
+         "20":"Light snow",
+         "21":"Snow",
+         "22":"Heavy snow",
+         "23":"Light snow showers",
+         "24":"Heavy snow showers",
+         "25":"Light sleet",
+         "26":"Sleet",
+         "27":"Heavy Sleet",
+         "28":"Light sleet showers",
+         "29":"Heavy sleet showers"
+      },
+      "weatherFieldTypes":{  
+         "1":{  
+            "id":1,
+            "name":"Temperature",
+            "analog":true,
+            "unit":"°C",
+            "format":"%.1f"
+         },
+         "2":{  
+            "id":2,
+            "name":"Dewpoint",
+            "analog":true,
+            "unit":"°C",
+            "format":"%.1f"
+         },
+         "3":{  
+            "id":3,
+            "name":"Rel. humidity",
+            "analog":true,
+            "format":"%.0f%%"
+         },
+         "4":{  
+            "id":4,
+            "name":"Wind speed",
+            "analog":true,
+            "unit":"km/h",
+            "format":"%.0f"
+         },
+         "5":{  
+            "id":5,
+            "name":"Wind direction",
+            "analog":true
+         },
+         "6":{  
+            "id":6,
+            "name":"Gusts",
+            "analog":true
+         },
+         "7":{  
+            "id":7,
+            "name":"Abs. radiation",
+            "analog":true
+         },
+         "8":{  
+            "id":8,
+            "name":"Rel. radiation",
+            "analog":true
+         },
+         "9":{  
+            "id":9,
+            "name":"Precipitation",
+            "analog":true,
+            "unit":"l/m²/h",
+            "format":"%.1f"
+         },
+         "10":{  
+            "id":10,
+            "name":"Weather type",
+            "analog":true
+         },
+         "11":{  
+            "id":11,
+            "name":"Air pressure",
+            "analog":true,
+            "unit":"hPa",
+            "format":"%.0f"
+         },
+         "26":{  
+            "id":26,
+            "name":"Perceived temperature",
+            "analog":true,
+            "unit":"°C",
+            "format":"%.1f"
+         },
+         "27":{  
+            "id":27,
+            "name":"Solar Radiation",
+            "analog":true
+         },
+         "28":{  
+            "id":28,
+            "name":"Chance of precipitation",
+            "analog":true
+         },
+         "29":{  
+            "id":29,
+            "name":"Snow percentage",
+            "analog":true
+         },
+         "30":{  
+            "id":30,
+            "name":"CAPE",
+            "analog":true
+         },
+         "31":{  
+            "id":31,
+            "name":"Low clouds",
+            "analog":true
+         },
+         "32":{  
+            "id":32,
+            "name":"Medium cloud cover",
+            "analog":true
+         },
+         "33":{  
+            "id":33,
+            "name":"High cloud cover",
+            "analog":true
+         },
+         "34":{  
+            "id":34,
+            "name":"Sunshine",
+            "analog":false
+         }
+      }
+   }

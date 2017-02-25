@@ -1,0 +1,25 @@
+{  
+      "serialNr":"504F94102A7D",
+      "msName":"Loxone Miniserver",
+      "projectName":"Home",
+      "localUrl":"192.168.1.77",
+      "remoteUrl":"dns.loxonecloud.com/504F94102A7D",
+      "tempUnit":0,
+      "currency":"€",
+      "location":"Epsom",
+      "languageCode":"ENG",
+      "heatPeriodStart":"10-01",
+      "heatPeriodEnd":"05-31",
+      "coolPeriodStart":"05-01",
+      "coolPeriodEnd":"09-30",
+      "catTitle":"Category",
+      "roomTitle":"Central",
+      "miniserverType":0,
+      "sortByRating":false,
+      "currentUser":{  
+         "name":"dave",
+         "uuid":"0d83537c-0379-ef17-ffff504f94000000",
+         "isAdmin":true,
+         "changePassword":true
+      }
+   }
