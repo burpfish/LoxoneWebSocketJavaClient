@@ -12,6 +12,15 @@ public class State implements UuidComponent {
     private final Collection<LoxUuid> uuids;
     private final String name;
     private Control control = null;
+    private Double value = null;
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
 
     public State(Collection<LoxUuid> uuids, String name, Control control) {
         this.uuids = uuids;

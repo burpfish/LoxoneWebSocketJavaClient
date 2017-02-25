@@ -5,4 +5,7 @@ package org.chelmer.model;
  */
 public interface UuidComponent {
     public String getName();
+
+    Double getValue();
+    void setValue(Double value);
 }

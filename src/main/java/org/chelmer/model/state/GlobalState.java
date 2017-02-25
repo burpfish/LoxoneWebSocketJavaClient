@@ -11,6 +11,7 @@ import org.chelmer.model.entity.LoxUuid;
 public class GlobalState implements UuidComponent {
     private final String name;
     private final LoxUuid uuid;
+    private Double value = null;
 
     public GlobalState(String name, LoxUuid uuid) {
         this.name = name;
@@ -19,6 +20,24 @@ public class GlobalState implements UuidComponent {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Double getValue() {
+        return value;
+    }
+
+    @Override
+    public void setValue(Double value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "GlobalState{" +
+                "name='" + name + '\'' +
+                ", uuid=" + uuid +
+                '}';
     }
 
     public LoxUuid getUuid() {

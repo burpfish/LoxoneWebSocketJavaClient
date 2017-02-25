@@ -34,6 +34,7 @@ import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import org.chelmer.clientimpl.LoxoneWebSocketClientHandler;
 import org.chelmer.exceptions.InvalidConfigurationException;
 import org.chelmer.model.LoxoneConfig;
+import org.chelmer.model.UuidComponent;
 import org.chelmer.response.ComponentChange;
 import org.chelmer.response.EventTimerItem;
 import org.chelmer.response.WeatherTimerItem;
@@ -46,6 +47,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -57,12 +59,14 @@ public final class LoxoneWebSocketClient implements LoxoneEventHandler {
     private final URI uri;
     private final String userName;
     private final String password;
-    private final List<Function<LoxoneConfig, Boolean>> configListeners = new ArrayList<>();
-    private final List<Function<WeatherTimerItem, Boolean>> weatherTimerListeners = new ArrayList<>();
-    private final List<Function<String, Boolean>> textMessageListeners = new ArrayList<>();
-    private final List<Function<EventTimerItem, Boolean>> daytimeTimerChangeListeners = new ArrayList<>();
-    private final List<Function<ByteBuf, Boolean>> binaryMessageListeners = new ArrayList<>();
-    private final List<Function<ComponentChange, Boolean>> componentChangeListeners = new ArrayList<>();
+    private final List<Consumer<LoxoneConfig>> configListeners = new ArrayList<>();
+    private final List<Consumer<ComponentChange>> componentChangeListeners = new ArrayList<>();
+    private final List<Consumer<ByteBuf>> binaryMessageListeners = new ArrayList<>();
+    private final List<Consumer<String>> textMessageListeners = new ArrayList<>();
+
+    // TODO: Do we need these??
+    private final List<Consumer<WeatherTimerItem>> weatherTimerListeners = new ArrayList<>();
+    private final List<Consumer<EventTimerItem>> daytimeTimerChangeListeners = new ArrayList<>();
     private EventLoopGroup group;
     private Channel channel;
 
@@ -85,27 +89,27 @@ public final class LoxoneWebSocketClient implements LoxoneEventHandler {
         }
     }
 
-    public void registerConfigListener(Function<LoxoneConfig, Boolean> funct) {
+    public void registerConfigListener(Consumer<LoxoneConfig> funct) {
         configListeners.add(funct);
     }
 
-    public void registerWeatherTimerListener(Function<WeatherTimerItem, Boolean> funct) {
+    public void registerWeatherTimerListener(Consumer<WeatherTimerItem> funct) {
         weatherTimerListeners.add(funct);
     }
 
-    public void registerTextMessageListeners(Function<String, Boolean> funct) {
+    public void registerTextMessageListeners(Consumer<String> funct) {
         textMessageListeners.add(funct);
     }
 
-    public void registerDaytimeTimerChangeListener(Function<EventTimerItem, Boolean> funct) {
+    public void registerDaytimeTimerChangeListener(Consumer<EventTimerItem> funct) {
         daytimeTimerChangeListeners.add(funct);
     }
 
-    public void registerBinaryMessageListener(Function<ByteBuf, Boolean> funct) {
+    public void registerBinaryMessageListener(Consumer<ByteBuf> funct) {
         binaryMessageListeners.add(funct);
     }
 
-    public void registerComponentChangeListener(Function<ComponentChange, Boolean> funct) {
+    public void registerComponentChangeListener(Consumer<ComponentChange> funct) {
         componentChangeListeners.add(funct);
     }
 
@@ -169,9 +173,9 @@ public final class LoxoneWebSocketClient implements LoxoneEventHandler {
         sendTextMessage("jdev/sps/enablebinstatusupdate");
     }
 
-    private <T> void invokeListeners(List<Function<T, Boolean>> listeners, T arg) {
-        for (Function<T, Boolean> listener : listeners) {
-            listener.apply(arg);
+    private <T> void invokeListeners(List<Consumer<T>> listeners, T arg) {
+        for (Consumer<T> listener : listeners) {
+            listener.accept(arg);
         }
     }
 
@@ -201,8 +205,14 @@ public final class LoxoneWebSocketClient implements LoxoneEventHandler {
     }
 
     @Override
-    public void componentChangeIncoming(ComponentChange value) {
-        invokeListeners(componentChangeListeners, value);
+    public void componentChangeIncoming(ComponentChange change) {
+        UuidComponent component = change.getComponent();
+        double val = change.getValue();
+        if (component.getValue() == null || !(component.getValue().equals(val))) {
+            change.setBeforeValue(component.getValue());
+            component.setValue(val);
+            invokeListeners(componentChangeListeners, change);
+        }
     }
 
     public void showInteractiveConsole() {

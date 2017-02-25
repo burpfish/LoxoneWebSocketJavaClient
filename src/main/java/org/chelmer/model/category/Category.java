@@ -13,6 +13,15 @@ public class Category implements UuidComponent {
     private final boolean isFavorite;
     private final CategoryType type;
     private final String color;
+    private Double value = null;
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
 
     public Category(LoxUuid uuid, String name, String image, int defaultRating, boolean isFavorite, CategoryType type, String color) {
         this.uuid = uuid;

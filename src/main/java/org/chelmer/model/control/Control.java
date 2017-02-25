@@ -41,6 +41,15 @@ public class Control implements UuidComponent {
     private Map<String, Control> subControls;
     private UuidComponentRegistry registry;
     private Control parentControl;
+    private Double value = null;
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
 
     public Control(String name, ControlType type, LoxUuid uuid, int defaultRating, boolean isSecured) {
         this.name = name;

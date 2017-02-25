@@ -7,6 +7,7 @@ import org.chelmer.response.EventTimerItem;
 import org.chelmer.response.WeatherTimerItem;
 
 import java.net.URISyntaxException;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -65,11 +66,10 @@ public class StandaloneLoxoneWebSocketClient {
         client.registerComponentChangeListener(new PrintFunction<ComponentChange>());
     }
 
-    private class PrintFunction<T> implements Function<T, Boolean> {
+    private class PrintFunction<T> implements Consumer<T> {
         @Override
-        public Boolean apply(Object o) {
-            System.out.println(o);
-            return false;
+        public void accept(T t) {
+            System.out.println(t);
         }
     }
 }

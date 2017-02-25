@@ -10,6 +10,15 @@ public class AutopilotState implements UuidComponent {
     private final String name;
     private final LoxUuid uuid;
     private final Autopilot autopilot;
+    private Double value = null;
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
 
     public AutopilotState(String name, LoxUuid value, Autopilot autopilot) {
         this.name = name;

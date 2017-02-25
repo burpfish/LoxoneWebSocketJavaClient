@@ -207,7 +207,7 @@ public abstract class WebSocketClientHandler extends SimpleChannelInboundHandler
         long messageLength = latestMessageNotification.getLength();
 
         if (messageType == MessageType.KEEPALIVE_RESPONSE) {
-            LOGGER.trace("Keepalive response incoming");
+            LOGGER.debug("Keepalive response incoming");
         } else if (bytes.capacity() == 8 && bytes.getByte(0) == 0x03) {
             handleNotificationMessage(bytes);
         } else if (messageType == MessageType.VALUE_TABLE) {

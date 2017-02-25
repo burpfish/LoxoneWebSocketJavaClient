@@ -10,6 +10,15 @@ public class Room implements UuidComponent {
     private final String image;
     private final int defaultRating;
     private final boolean isFavorite;
+    private Double value = null;
+
+    public Double getValue() {
+        return value;
+    }
+
+    public void setValue(Double value) {
+        this.value = value;
+    }
 
     public Room(LoxUuid uuid, String name, String image, int defaultRating, boolean isFavorite) {
         this.uuid = uuid;
