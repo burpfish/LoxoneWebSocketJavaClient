@@ -3,6 +3,7 @@ package org.chelmer.model;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.chelmer.clientimpl.LoxoneWebSocketClient;
 import org.chelmer.clientimpl.UuidComponentRegistry;
 import org.chelmer.deserialize.ObjectMapperFactory;
 import org.chelmer.model.control.Control;
@@ -16,13 +17,14 @@ import java.io.InputStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class DeserializeControlTest {
     private ObjectMapper mapper;
 
     @Before
     public void init() {
-        mapper = new ObjectMapperFactory().createObjectMapper(new UuidComponentRegistry());
+        mapper = new ObjectMapperFactory().createObjectMapper(new UuidComponentRegistry(), mock(LoxoneWebSocketClient.class));
     }
 
     @Test

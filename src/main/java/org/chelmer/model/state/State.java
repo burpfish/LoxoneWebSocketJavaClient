@@ -2,29 +2,20 @@ package org.chelmer.model.state;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import org.chelmer.clientimpl.UuidComponentRegistry;
-import org.chelmer.model.UuidComponent;
+import org.chelmer.model.ComponentBase;
 import org.chelmer.model.control.Control;
 import org.chelmer.model.entity.LoxUuid;
 
 import java.util.Collection;
 
-public class State implements UuidComponent {
+public class State extends ComponentBase {
     private final Collection<LoxUuid> uuids;
-    private final String name;
     private Control control = null;
-    private Double value = null;
-
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
 
     public State(Collection<LoxUuid> uuids, String name, Control control) {
+        super(name);
+
         this.uuids = uuids;
-        this.name = name;
         this.control = control;
     }
 
@@ -41,14 +32,14 @@ public class State implements UuidComponent {
 
     @Override
     public String getName() {
-        return control.getName() + "(" + name + ")";
+        return control.getName() + "(" + super.getName() + ")";
     }
 
     @Override
     public String toString() {
         return "State{" +
                 "uuids=" + uuids +
-                ", name='" + name + '\'' +
+                ", name='" + getName() + '\'' +
                 ", control=" + control +
                 '}';
     }

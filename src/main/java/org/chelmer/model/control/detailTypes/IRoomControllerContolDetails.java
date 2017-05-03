@@ -1,5 +1,7 @@
 package org.chelmer.model.control.detailTypes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.chelmer.model.control.ControlDetails;
 import org.chelmer.model.weatherServer.Temperature;
 
@@ -17,8 +19,8 @@ public class IRoomControllerContolDetails extends ControlDetails {
     private String format;
     private Map<Integer, Temperature> temperatures;
 
-    public IRoomControllerContolDetails(int restrictedToMode, String heatPeriodStart, String heatPeriodEnd, String coolPeriodStart, String coolPeriodEnd, Map<Integer, Temperature> temperatures, String format) {
-
+    @JsonCreator
+    public IRoomControllerContolDetails(@JsonProperty("restrictedToMode") int restrictedToMode, @JsonProperty("heatPeriodStart") String heatPeriodStart, @JsonProperty("heatPeriodEnd") String heatPeriodEnd, @JsonProperty("coolPeriodStart") String coolPeriodStart, @JsonProperty("coolPeriodEnd") String coolPeriodEnd, @JsonProperty("temperatures") Map<Integer, Temperature> temperatures, @JsonProperty("format") String format) {
         this.restrictedToMode = restrictedToMode;
         this.heatPeriodStart = heatPeriodStart;
         this.heatPeriodEnd = heatPeriodEnd;

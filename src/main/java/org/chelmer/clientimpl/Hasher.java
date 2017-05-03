@@ -1,6 +1,6 @@
 package org.chelmer.clientimpl;
 
-import org.chelmer.exceptions.CouldNotDeserializeException;
+import org.chelmer.exceptions.ParsingException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -23,7 +23,7 @@ public class Hasher {
             }
             return formatter.toString();
         } catch (InvalidKeyException | NoSuchAlgorithmException | IllegalStateException e) {
-            throw new CouldNotDeserializeException("Cannot hash key " + e);
+            throw new ParsingException("Cannot hash key " + e);
         }
     }
 }

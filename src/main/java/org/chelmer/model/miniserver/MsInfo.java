@@ -1,6 +1,8 @@
 package org.chelmer.model.miniserver;
 
-import org.chelmer.exceptions.CouldNotDeserializeException;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.chelmer.exceptions.ParsingException;
 import org.chelmer.model.entity.User;
 import org.chelmer.model.weatherServer.TempUnit;
 
@@ -28,7 +30,8 @@ public class MsInfo {
     private final User currentUser;
     private final String serialNr;
 
-    public MsInfo(String serialNr, String msName, String projectName, String localUrl, String remoteUrl, TempUnit tempUnit, String currency, String location, String languageCode, MonthDay heatPeriodStart, MonthDay heatPeriodEnd, MonthDay coolPeriodStart, MonthDay coolPeriodEnd, String catTitle, String roomTitle, int miniserverType, boolean sortByRating, User currentUser) {
+    @JsonCreator
+    public MsInfo(@JsonProperty("serialNr") String serialNr, @JsonProperty("msName") String msName, @JsonProperty("projectName") String projectName, @JsonProperty("localUrl") String localUrl, @JsonProperty("remoteUrl") String remoteUrl, @JsonProperty("tempUnit") TempUnit tempUnit, @JsonProperty("currency") String currency, @JsonProperty("location") String location, @JsonProperty("languageCode") String languageCode, @JsonProperty("heatPeriodStart") MonthDay heatPeriodStart, @JsonProperty("heatPeriodEnd") MonthDay heatPeriodEnd, @JsonProperty("coolPeriodStart") MonthDay coolPeriodStart, @JsonProperty("coolPeriodEnd") MonthDay coolPeriodEnd, @JsonProperty("catTitle") String catTitle, @JsonProperty("roomTitle") String roomTitle, @JsonProperty("miniserverType") int miniserverType, @JsonProperty("sortByRating") boolean sortByRating, @JsonProperty("currentUser") User currentUser) {
         this.serialNr = serialNr;
         this.msName = msName;
         this.projectName = projectName;
@@ -37,7 +40,7 @@ public class MsInfo {
             this.localUrl = new URL("http://" + localUrl);
             this.remoteUrl = new URL("http://" + remoteUrl);
         } catch (MalformedURLException e) {
-            throw new CouldNotDeserializeException("Cannot create URL for: " + localUrl, e);
+            throw new ParsingException("Cannot create URL for: " + localUrl, e);
         }
         this.tempUnit = tempUnit;
         this.currency = currency;

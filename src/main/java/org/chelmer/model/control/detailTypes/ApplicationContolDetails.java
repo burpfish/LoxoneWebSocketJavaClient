@@ -1,5 +1,7 @@
 package org.chelmer.model.control.detailTypes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.chelmer.model.control.ControlDetails;
 
 /**
@@ -9,8 +11,8 @@ public class ApplicationContolDetails extends ControlDetails {
     private String url;
     private String image;
 
-    public ApplicationContolDetails(String url, String image) {
-
+    @JsonCreator
+    public ApplicationContolDetails(@JsonProperty("url") String url, @JsonProperty("image") String image) {
         this.url = url;
         this.image = image;
     }

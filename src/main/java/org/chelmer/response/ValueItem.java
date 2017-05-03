@@ -2,7 +2,7 @@ package org.chelmer.response;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import org.chelmer.clientimpl.UuidComponentRegistry;
-import org.chelmer.model.UuidComponent;
+import org.chelmer.model.Component;
 import org.chelmer.model.entity.LoxUuid;
 
 /**
@@ -26,7 +26,7 @@ public class ValueItem {
         return value;
     }
 
-    public UuidComponent getComponent() {
+    public Component getComponent() {
         return registry.get(uuid);
     }
 
@@ -37,7 +37,7 @@ public class ValueItem {
 
     @Override
     public String toString() {
-        UuidComponent component = getComponent();
+        Component component = getComponent();
 
         return "ValueItem{" +
                 "uuid=" + (component != null ? component.getName() : uuid) +

@@ -1,5 +1,7 @@
 package org.chelmer.model.control.detailTypes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.chelmer.model.control.ControlDetails;
 
 /**
@@ -9,7 +11,8 @@ public class IrcDayTimerContolDetails extends ControlDetails {
     private boolean analog;
     private String format;
 
-    public IrcDayTimerContolDetails(boolean analog, String format) {
+    @JsonCreator
+    public IrcDayTimerContolDetails(@JsonProperty("analog") boolean analog, @JsonProperty("format") String format) {
         this.analog = analog;
         this.format = format;
     }

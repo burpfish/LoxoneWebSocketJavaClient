@@ -1,30 +1,23 @@
 package org.chelmer.model.autopilot;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.chelmer.clientimpl.UuidComponentRegistry;
-import org.chelmer.model.UuidComponent;
+import org.chelmer.model.ComponentBase;
 import org.chelmer.model.entity.LoxUuid;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class Autopilot implements UuidComponent {
-    private final String name;
+public class Autopilot extends ComponentBase {
     private final LoxUuid uuid;
     private final List<AutopilotState> states;
-    private Double value = null;
 
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    public Autopilot(String name, LoxUuid uuidAction, Map<String, LoxUuid> states) {
-        this.name = name;
+    @JsonCreator
+    public Autopilot(@JsonProperty("name") String name, @JsonProperty("uuidAction") LoxUuid uuidAction, @JsonProperty("states") Map<String, LoxUuid> states) {
+        super(name);
         this.uuid = uuidAction;
         this.states = new ArrayList<>();
 
@@ -44,10 +37,6 @@ public class Autopilot implements UuidComponent {
         }
 
         registry.register(uuid, this);
-    }
-
-    public String getName() {
-        return name;
     }
 
     public LoxUuid getUuid() {

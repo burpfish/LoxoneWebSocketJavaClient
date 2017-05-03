@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import org.chelmer.clientimpl.LoxoneWebSocketClient;
 import org.chelmer.clientimpl.UuidComponentRegistry;
 import org.chelmer.model.control.Details;
 
@@ -17,14 +18,16 @@ import java.time.MonthDay;
  * Created by burfo on 24/02/2017.
  */
 public class ObjectMapperFactory {
-    public ObjectMapper createObjectMapper(UuidComponentRegistry registry) {
+    public ObjectMapper createObjectMapper(UuidComponentRegistry registry, LoxoneWebSocketClient client) {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES));
         mapper.registerModule(new JavaTimeModule());
         mapper.configOverride(LocalDateTime.class).setFormat(JsonFormat.Value.forPattern("yyyy-MM-dd HH:mm:ss"));
         mapper.configOverride(MonthDay.class).setFormat(JsonFormat.Value.forPattern("MM-dd"));
 
-        InjectableValues inject = new InjectableValues.Std().addValue(UuidComponentRegistry.class, registry);
+        InjectableValues inject = new InjectableValues.Std() //
+                .addValue(UuidComponentRegistry.class, registry) //
+                .addValue(LoxoneWebSocketClient.class, client);
         mapper.setInjectableValues(inject);
 
         SimpleModule module = new SimpleModule();

@@ -1,6 +1,8 @@
 package org.chelmer.model;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.chelmer.clientimpl.UuidComponentRegistry;
 import org.chelmer.model.autopilot.Autopilot;
 import org.chelmer.model.category.Category;
@@ -10,14 +12,17 @@ import org.chelmer.model.entity.Room;
 import org.chelmer.model.entity.Time;
 import org.chelmer.model.miniserver.MsInfo;
 import org.chelmer.model.state.GlobalState;
+import org.chelmer.model.state.GlobalStateFactory;
 import org.chelmer.model.weatherServer.WeatherServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class LoxoneConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoxoneConfig.class);
+
     private final LocalDateTime lastModified;
     private final MsInfo msInfo;
     private final List<GlobalState> globalStates;
@@ -28,8 +33,10 @@ public class LoxoneConfig {
     private final WeatherServer weatherServer;
     private final Map<Integer, Time> times;
     private final Map<String, Autopilot> autopilot;
+    private UuidComponentRegistry registry;
 
-    public LoxoneConfig(LocalDateTime lastModified, MsInfo msInfo, Map<String, LoxUuid> globalStates, Map<Integer, String> operatingModes, Map<String, Room> rooms, Map<String, Category> cats, Map<String, Control> controls, WeatherServer weatherServer, Map<Integer, Time> times, Map<String, Autopilot> autopilot) {
+    @JsonCreator
+    public LoxoneConfig(@JsonProperty("lastModified") LocalDateTime lastModified, @JsonProperty("msInfo") MsInfo msInfo, @JsonProperty("globalStates") Map<String, LoxUuid> globalStates, @JsonProperty("operatingModes") Map<Integer, String> operatingModes, @JsonProperty("rooms") Map<String, Room> rooms, @JsonProperty("cats") Map<String, Category> cats, @JsonProperty("controls") Map<String, Control> controls, @JsonProperty("weatherServer") WeatherServer weatherServer, @JsonProperty("times") Map<Integer, Time> times, @JsonProperty("autopilot") Map<String, Autopilot> autopilot) {
         this.lastModified = lastModified;
         this.msInfo = msInfo;
         this.operatingModes = operatingModes;
@@ -42,7 +49,7 @@ public class LoxoneConfig {
 
         this.globalStates = new ArrayList<>();
         for (Map.Entry<String, LoxUuid> entry : globalStates.entrySet()) {
-            this.globalStates.add(new GlobalState(entry.getKey(), entry.getValue()));
+            this.globalStates.add(new GlobalStateFactory().createGlobalState(entry.getKey(), entry.getValue(), operatingModes));
         }
     }
 
@@ -70,10 +77,6 @@ public class LoxoneConfig {
         return cats;
     }
 
-    public Map<String, Control> getControls() {
-        return controls;
-    }
-
     public WeatherServer getWeatherServer() {
         return weatherServer;
     }
@@ -86,8 +89,13 @@ public class LoxoneConfig {
         return autopilot;
     }
 
+    public Map<String, Control> getControls() {
+        return controls;
+    }
+
     @JacksonInject
     public void setRegistry(UuidComponentRegistry registry) {
+        this.registry = registry;
         for (GlobalState gs : globalStates) {
             gs.setRegistry(registry);
         }
@@ -107,5 +115,15 @@ public class LoxoneConfig {
                 ", times=" + times +
                 ", autopilot=" + autopilot +
                 '}';
+    }
+
+    public <T extends Component> T getControl(LoxUuid id, Class<T> clazz) {
+        // donut - remove this class when the caller is using the registry directly
+        return registry.getComponentOfType(id, clazz);
+    }
+
+    public <T extends Control> List<T> getControls(Class<T> controlType) {
+        // donut - remove this class when the caller is using the registry directly
+        return registry.getControls(controlType);
     }
 }

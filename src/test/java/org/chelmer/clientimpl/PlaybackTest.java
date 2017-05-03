@@ -4,20 +4,25 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshaker;
-import org.chelmer.LoxoneEventHandler;
 import org.chelmer.model.LoxoneConfig;
-import org.chelmer.response.ComponentChange;
+import org.chelmer.model.control.Control;
+import org.chelmer.model.control.controlTypes.SwitchControl;
 import org.chelmer.response.EventTimerItem;
 import org.chelmer.response.WeatherTimerItem;
+import org.chelmer.response.change.ComponentChange;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -33,47 +38,17 @@ public class PlaybackTest {
     private final static String DIR = "recordplayback";
     private final Logger LOGGER = LoggerFactory.getLogger(PlaybackTest.class);
     private final Pattern fileNumberPattern = Pattern.compile("(\\d+)(_.*)");
-
+    TestLoxoneEventHandler eventHandler = new TestLoxoneEventHandler();
     private WebSocketClientHandshaker mockHandshaker = mock(WebSocketClientHandshaker.class);
-
-    private LoxoneEventHandler eventHandler = new LoxoneEventHandler() {
-        @Override
-        public void configIncoming(LoxoneConfig config) {
-
-        }
-
-        @Override
-        public void weatherTimerChangeIncoming(WeatherTimerItem value) {
-
-        }
-
-        @Override
-        public void daytimeTimerChangeIncoming(EventTimerItem values) {
-
-        }
-
-        @Override
-        public void textMessageIncoming(String value) {
-
-        }
-
-        @Override
-        public void binaryMessageIncoming(ByteBuf bytes) {
-
-        }
-
-        @Override
-        public void componentChangeIncoming(ComponentChange change) {
-
-        }
-    };
+    private PlaybackUtils utils = new PlaybackUtils();
 
     @Test
-    public void playbackTest() {
-        LoxoneWebSocketClientHandler underTest = new LoxoneWebSocketClientHandler(mockHandshaker, "user", "password", eventHandler);
+    public void playbackTest() throws URISyntaxException, MalformedURLException {
+        LoxoneWebSocketClient client = mock(LoxoneWebSocketClient.class);
+        LoxoneWebSocketClientHandler underTest = new LoxoneWebSocketClientHandler(client, new URL("http://192.168.11.0:8080").toURI(), "user", "password");//, eventHandler);
         underTest.setHandshakeFuture(mock(ChannelPromise.class));
 
-        SortedMap<Integer, Object> files = getAllFiles();
+        SortedMap<Integer, Object> files = utils.getAllFiles();
 
         for (Object message : files.values()) {
             if (message instanceof ByteBuf) {
@@ -84,49 +59,45 @@ public class PlaybackTest {
                 throw new RuntimeException("Unexpected data when playing back");
             }
         }
+
+        // donut - should be a separate test
+        Collection<? extends Control> switchControls = eventHandler.getConfig().getControls(SwitchControl.class);
+        System.out.println(switchControls);
     }
 
-    private SortedMap<Integer, Object> getAllFiles() {
-        URL url = ClassLoader.getSystemResource(DIR);
-        if (url == null) {
-            throw new RuntimeException("Cannot find playback file dir: " + DIR);
+    private static class TestLoxoneEventHandler {// implements LoxoneEventHandler {
+        LoxoneConfig config;
+
+        public LoxoneConfig getConfig() {
+            return config;
         }
 
-        SortedMap<Integer, Object> messages = new TreeMap<>();
-
-        try (Stream<Path> paths = Files.walk(Paths.get(url.toURI()))) {
-            paths.forEach(filePath -> {
-                if (Files.isRegularFile(filePath)) {
-                    String fileName = filePath.getFileName().toString();
-
-                    try {
-                        Matcher m = fileNumberPattern.matcher(fileName);
-                        if (m.find()) {
-                            if (fileName.endsWith(Recorder.BINARY_SUFFIX)) {
-                                messages.put(Integer.valueOf(m.group(1)), getBinaryFileContent(filePath));
-                            } else if (fileName.endsWith(Recorder.TEXT_SUFFIX)) {
-                                messages.put(Integer.valueOf(m.group(1)), getTextFileContent(filePath));
-                            } else {
-                                throw new RuntimeException("Unknown playback file type: " + fileName);
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            throw new RuntimeException("Cannot access playback files in dir: " + DIR, e);
+//        @Override
+        public void configIncoming(LoxoneConfig config) {
+            this.config = config;
         }
 
-        return messages;
-    }
+//        @Override
+        public void weatherTimerChangeIncoming(WeatherTimerItem value) {
+        }
 
-    private ByteBuf getBinaryFileContent(Path path) throws IOException {
-        return Unpooled.wrappedBuffer(Files.readAllBytes(path));
-    }
+//        @Override
+        public void daytimeTimerChangeIncoming(EventTimerItem values) {
+        }
 
-    private String getTextFileContent(Path path) throws IOException {
-        return new String(Files.readAllBytes(path));
+//        @Override
+        public void textMessageIncoming(String value) {
+        }
+
+//        @Override
+        public void binaryMessageIncoming(ByteBuf bytes) {
+        }
+
+//        @Override
+        public void componentChangeIncoming(ComponentChange change) {
+            System.out.println();
+            System.out.println(change.getMessage());
+            System.out.println(String.format("    %s", change.getComponent().getClass().getName()));
+        }
     }
 }

@@ -3,6 +3,7 @@ package org.chelmer.model;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.chelmer.clientimpl.LoxoneWebSocketClient;
 import org.chelmer.clientimpl.UuidComponentRegistry;
 import org.chelmer.deserialize.ObjectMapperFactory;
 import org.chelmer.model.weatherServer.WeatherServer;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class DeserializeWeatherServerTest {
     private ObjectMapper mapper;
@@ -22,7 +24,7 @@ public class DeserializeWeatherServerTest {
 
     @Before
     public void init() {
-        mapper = new ObjectMapperFactory().createObjectMapper(registry);
+        mapper = new ObjectMapperFactory().createObjectMapper(registry, mock(LoxoneWebSocketClient.class));
     }
 
     @Test

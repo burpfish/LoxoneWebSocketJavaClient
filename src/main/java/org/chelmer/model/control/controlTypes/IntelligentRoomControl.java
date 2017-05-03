@@ -11,22 +11,4 @@ public class IntelligentRoomControl extends Control {
     public IntelligentRoomControl(String name, ControlType type, LoxUuid uuidAction, int defaultRating, boolean isSecured) {
         super(name, type, uuidAction, defaultRating, isSecured);
     }
-
-//    public LoxUuid getEntriesAndDefaultValueState() {
-//        return getStates().getStateAsUuid("entriesAndDefaultValue");
-//    }
-//
-//    public LoxUuid getModeState() {
-//        return getStates().getStateAsUuid("mode");
-//    }
-//
-//    public LoxUuid getModeListState() {
-//        return getStates().getStateAsUuid("modeList");
-//    }
-//
-//    public LoxUuid getValueState() {
-//        return getStates().getStateAsUuid("value");
-//    }
-
-
 }

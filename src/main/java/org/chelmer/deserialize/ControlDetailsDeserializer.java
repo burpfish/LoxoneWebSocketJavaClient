@@ -36,7 +36,7 @@ public class ControlDetailsDeserializer extends StdDeserializer<Details> {
 
         switch (type) {
             case SWITCH:
-                value = jsonParser.readValueAs(SwitchContolDetails.class);
+                value = jsonParser.readValueAs(SwitchControlDetails.class);
                 break;
             case PUSHBUTTON:
                 value = jsonParser.readValueAs(PushButtonContolDetails.class);
@@ -57,7 +57,7 @@ public class ControlDetailsDeserializer extends StdDeserializer<Details> {
                 value = jsonParser.readValueAs(IRoomControllerContolDetails.class);
                 break;
             case DIMMER:
-                value = jsonParser.readValueAs(SwitchContolDetails.class);
+                value = jsonParser.readValueAs(SwitchControlDetails.class);
                 break;
             case UNDEFINED:
             default:

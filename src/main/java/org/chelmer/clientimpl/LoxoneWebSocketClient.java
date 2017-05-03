@@ -441,8 +441,9 @@ public class LoxoneWebSocketClient implements LoxoneClient {
                     if (component instanceof Control) {
                         Map<String, Control> subControls = ((Control) component).getSubControls();
                         if (subControls != null && subControls.values().size() == 1) {
-                            LOGGER.warn("TODO. Component with one sub control - using it");
-                            component = subControls.values().iterator().next();
+                            // donut
+                            // LOGGER.warn("TODO. Component with one sub control - using it");
+                            // component = subControls.values().iterator().next();
                         }
                     }
                 }

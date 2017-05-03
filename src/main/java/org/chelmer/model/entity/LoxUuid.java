@@ -8,6 +8,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 public class LoxUuid {
     private String UUID;
 
+    public LoxUuid() {
+
+    }
+
     @JsonCreator
     public LoxUuid(String UUID) {
         this.UUID = UUID;

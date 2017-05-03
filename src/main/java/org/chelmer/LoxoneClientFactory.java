@@ -12,6 +12,10 @@ public class LoxoneClientFactory {
         return client;
     }
 
+    public LoxoneClient create(String host, int port, String user, String password) {
+        return new LoxoneWebSocketClient(host, port, user, password);
+    }
+
     public LoxoneClient createAndConnect(String host, int port, String user, String password) {
         return createAndConnect(host, port, user, password, false);
     }

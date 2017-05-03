@@ -2,7 +2,7 @@ package org.chelmer.model.weatherServer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.chelmer.exceptions.CouldNotDeserializeException;
+import org.chelmer.exceptions.ParsingException;
 
 public enum TempUnit {
     CELSIUS(0),
@@ -22,6 +22,6 @@ public enum TempUnit {
             }
         }
 
-        throw new CouldNotDeserializeException("Invalid value for TempUnit: " + jsonNode.get("value").asText());
+        throw new ParsingException("Invalid value for TempUnit: " + jsonNode.get("value").asText());
     }
 }

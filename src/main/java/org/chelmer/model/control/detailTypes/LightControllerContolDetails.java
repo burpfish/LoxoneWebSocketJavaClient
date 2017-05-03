@@ -1,5 +1,7 @@
 package org.chelmer.model.control.detailTypes;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.chelmer.model.control.ControlDetails;
 
 /**
@@ -8,8 +10,8 @@ import org.chelmer.model.control.ControlDetails;
 public class LightControllerContolDetails extends ControlDetails {
     private int movementScene;
 
-    public LightControllerContolDetails(int movementScene) {
-
+    @JsonCreator
+    public LightControllerContolDetails(@JsonProperty("movementScene") int movementScene) {
         this.movementScene = movementScene;
     }
 

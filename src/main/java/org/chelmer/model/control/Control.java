@@ -3,23 +3,29 @@ package org.chelmer.model.control;
 import com.fasterxml.jackson.annotation.JacksonInject;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.chelmer.clientimpl.LoxoneWebSocketClient;
 import org.chelmer.clientimpl.UuidComponentRegistry;
-import org.chelmer.exceptions.CouldNotDeserializeException;
-import org.chelmer.model.UuidComponent;
+import org.chelmer.exceptions.ParsingException;
+import org.chelmer.exceptions.UnknownCommandException;
+import org.chelmer.model.Component;
+import org.chelmer.model.ComponentBase;
 import org.chelmer.model.category.Category;
 import org.chelmer.model.control.controlTypes.*;
 import org.chelmer.model.entity.LoxUuid;
 import org.chelmer.model.entity.Room;
+import org.chelmer.model.state.StateType;
 import org.chelmer.model.state.States;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
-public class Control implements UuidComponent {
-    private static final Logger LOGGER = LoggerFactory.getLogger(UuidComponent.class);
+public class Control extends ComponentBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Component.class);
 
-    private final String name;
     private final ControlType type;
 
     @JsonProperty("uuidAction")
@@ -41,26 +47,22 @@ public class Control implements UuidComponent {
     private Map<String, Control> subControls;
     private UuidComponentRegistry registry;
     private Control parentControl;
-    private Double value = null;
+    private LoxoneWebSocketClient client;
 
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
+    private int id;
+    private static int ID_COUNT = 0;
 
     public Control(String name, ControlType type, LoxUuid uuid, int defaultRating, boolean isSecured) {
-        this.name = name;
+        super(name);
         this.type = type;
         this.uuid = uuid;
         this.defaultRating = defaultRating;
         this.isSecured = isSecured;
+        this.id = ID_COUNT++;
     }
 
     @JsonCreator
-    public static Control createControl(String name, ControlType type, LoxUuid uuid, int defaultRating, boolean isSecured) {
+    public static Control createControl(@JsonProperty("name") String name, @JsonProperty("type") ControlType type, @JsonProperty("uuidAction") LoxUuid uuid, @JsonProperty("defaultRating") int defaultRating, @JsonProperty("isSecured") boolean isSecured) {
         Control control = null;
 
         switch (type) {
@@ -86,10 +88,12 @@ public class Control implements UuidComponent {
                 control = new IRoomControllerControl(name, type, uuid, defaultRating, isSecured);
                 break;
             case DIMMER:
-                control = new LightingControl(name, type, uuid, defaultRating, isSecured);
+                control = new DimmerControl(name, type, uuid, defaultRating, isSecured);
                 break;
             default:
-                throw new CouldNotDeserializeException("Ignoring component of type: " + type);
+                LOGGER.warn("Unknown component of type: " + type);
+                control = new Control(name, type, uuid, defaultRating, isSecured);
+                break;
         }
 
         return control;
@@ -101,10 +105,6 @@ public class Control implements UuidComponent {
 
     public void setPresence(boolean presence) {
         this.presence = presence;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public ControlType getType() {
@@ -134,7 +134,7 @@ public class Control implements UuidComponent {
     @Override
     public String toString() {
         return "Control{" +
-                "name='" + name + '\'' +
+                "name='" + getName() + '\'' +
                 ", type=" + type +
                 ", uuid=" + uuid +
                 '}';
@@ -142,9 +142,22 @@ public class Control implements UuidComponent {
 
     @JacksonInject
     public void setRegistry(UuidComponentRegistry registry) {
+
+
+        // System.out.println(this.id + " >> " + uuid.toString());
+
+
         this.registry = registry;
         registry.register(uuid, this);
+        registerStates(registry);
+    }
 
+    @JacksonInject
+    public void setClient(LoxoneWebSocketClient client) {
+        this.client = client;
+    }
+
+    protected void registerStates(UuidComponentRegistry registry) {
         if (states != null) {
             states.setRegistry(registry);
         }
@@ -166,8 +179,15 @@ public class Control implements UuidComponent {
         return registry.getCategory(categoryUuid);
     }
 
+    protected States getStates() {
+        return states;
+    }
+
     public void setStates(Map<String, Object> states) {
-        this.states = new States(states, this);
+        if (this.states == null) {
+            this.states = new States();
+        }
+        this.states.setStates(states, this, getStateTypes());
     }
 
     public Details getDetails() {
@@ -193,6 +213,7 @@ public class Control implements UuidComponent {
     public void setSubControls(Map<String, Control> subControls) {
         for (Control subControl : subControls.values()) {
             subControl.setParentControl(this);
+            // subControl.setRegistry(registry);
         }
         this.subControls = subControls;
     }
@@ -203,5 +224,35 @@ public class Control implements UuidComponent {
 
     public void setParentControl(Control parentControl) {
         this.parentControl = parentControl;
+    }
+
+    protected Map<String, StateType> getStateTypes() {
+        return new HashMap<>();
+    }
+
+    protected Collection<Command> getCommands() {
+        return new ArrayList<>();
+    }
+
+    public void invokeCommand(Command command) {
+        checkCommand(command);
+        client.sendCommand(this, command);
+    }
+
+    public void invokeCommand(Command command, int value) {
+        checkCommand(command);
+        client.sendCommand(this, command, value);
+    }
+
+    private void checkCommand(Command command) {
+        if (!(getCommands().contains(command))) {
+            String msg = String.format("Unknown command: %s for command of type: %s", command, getClass().getName());
+            LOGGER.error(msg);
+            throw new UnknownCommandException(msg);
+        }
+
+        if (client == null) {
+            throw new ParsingException("Loxone client not set for control. Cannot send command.");
+        }
     }
 }

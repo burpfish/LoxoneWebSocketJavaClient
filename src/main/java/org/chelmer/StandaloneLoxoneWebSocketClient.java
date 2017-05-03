@@ -39,7 +39,7 @@ public class StandaloneLoxoneWebSocketClient {
                 port = 80;
             }
 
-            client = new LoxoneClientFactory().createAndConnect(cmd.getOptionValue("host"), port, cmd.getOptionValue("user"), cmd.getOptionValue("password"), USE_MOCK_DATA);
+            client = new LoxoneClientFactory().create(cmd.getOptionValue("host"), port, cmd.getOptionValue("user"), cmd.getOptionValue("password"));
             registerListeners(client);
         } finally {
             if (client != null) {
@@ -75,9 +75,9 @@ public class StandaloneLoxoneWebSocketClient {
         //client.registerTextMessageListeners(new PrintFunction<String>());
         //client.registerDaytimeTimerChangeListener(new PrintFunction<EventTimerItem>());
         //client.registerBinaryMessageListener(new PrintFunction<ByteBuf>());
-        //client.registerComponentChangeListener(new PrintFunction<ComponentChange>());
-        client.registerSwitchChangeListener(new PrintFunction<SwitchControl>());
-        client.registerDimmerChangeListener(new PrintFunction<DimmerControl>());
+        client.registerComponentChangeListener(new PrintFunction<ComponentChange>());
+        //client.registerSwitchChangeListener(new PrintFunction<SwitchControl>());
+        //client.registerDimmerChangeListener(new PrintFunction<DimmerControl>());
     }
 
     public void showInteractiveConsole() {
@@ -165,7 +165,7 @@ public class StandaloneLoxoneWebSocketClient {
         } else {
             Control control = getControl(name);
             if (control != null) {
-                System.out.println("Setting control " + name + " to value: " + value);
+                System.out.println(String.format("Setting control %s(%s) to value: %s", name, control.getName(), value));
                 if (control instanceof SwitchControl) {
                     setSwitchControl((SwitchControl) control, value);
                 } else if (control instanceof DimmerControl) {
@@ -176,20 +176,23 @@ public class StandaloneLoxoneWebSocketClient {
     }
 
     private void setDimmerControl(DimmerControl control, String value) {
-        // TODO: Just have a set value!!! DUH!!!
-        control.invokeCommand(DimmerControl.DimmerValueCommand.SET_VALUE, Integer.valueOf(value));
+        control.setBrightness(Integer.valueOf(value));
     }
 
     private void setSwitchControl(SwitchControl control, String value) {
-        // TODO: Just have a set value!!! DUH!!!
-        // control.invokeCommand(DimmerControl.DimmerValueCommand.SET_VALUE);
-
+        if ("on".equals(value.toLowerCase().trim())) {
+            control.setState(true);
+        } else if ("off".equals(value.toLowerCase().trim())) {
+            control.setState(false);
+        } else {
+            System.out.println("Switch control can only be set to on or off, not: " + value);
+        }
     }
 
     private void printStatus(String name) {
         Control control = getControl(name);
         if (control != null) {
-            System.out.println(control.getValue());
+            System.out.println(String.format("%s(%s): %s", name, control.getName(), control.getValue()));
         }
     }
 

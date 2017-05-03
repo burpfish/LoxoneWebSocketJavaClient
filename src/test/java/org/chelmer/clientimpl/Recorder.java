@@ -2,7 +2,6 @@ package org.chelmer.clientimpl;
 
 import io.netty.buffer.ByteBuf;
 import org.apache.commons.cli.ParseException;
-import org.chelmer.LoxoneWebSocketClient;
 import org.chelmer.StandaloneLoxoneWebSocketClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
-import java.util.function.Function;
+import java.util.function.Consumer;
 
 /**
  * Created by burfo on 23/02/2017.
@@ -36,18 +35,16 @@ public class Recorder extends StandaloneLoxoneWebSocketClient {
     }
 
     protected void registerListeners(LoxoneWebSocketClient client) {
-        client.registerTextMessageListeners(new Function<String, Boolean>() {
+        client.registerTextMessageListeners(new Consumer<String>() {
             @Override
-            public Boolean apply(String message) {
+            public void accept(String message) {
                 textMessageIncoming(message);
-                return false;
             }
         });
-        client.registerBinaryMessageListener(new Function<ByteBuf, Boolean>() {
+        client.registerBinaryMessageListener(new Consumer<ByteBuf>() {
             @Override
-            public Boolean apply(ByteBuf byteBuf) {
+            public void accept(ByteBuf byteBuf) {
                 binaryMessageIncoming(byteBuf);
-                return false;
             }
         });
     }

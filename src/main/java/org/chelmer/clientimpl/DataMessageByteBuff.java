@@ -2,7 +2,7 @@ package org.chelmer.clientimpl;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
 import io.netty.buffer.ByteBuf;
-import org.chelmer.exceptions.CouldNotDeserializeException;
+import org.chelmer.exceptions.ParsingException;
 import org.chelmer.model.entity.LoxUuid;
 
 import java.lang.reflect.Constructor;
@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ *
  * Deserialize a WebSocket data message into a Java object.
  * Mapping is determined via the specified class.
  * Parameters will be deserialized in the order they appear in the classes constructor, using the following mappings:
@@ -88,7 +89,7 @@ public class DataMessageByteBuff {
                 args[i] = new LoxUuid(String.format("%08x-%04x-%04x-%02x%02x%02x%02x%02x%02x%02x%02x", uuid1, uuid2, uuid3, uuid4[0], uuid4[1], uuid4[2], uuid4[3], uuid4[4], uuid4[5], uuid4[6], uuid4[7]));
             } else if (type.equals(String.class)) {
                 if (i == 0 || !(args[i - 1] instanceof Number)) {
-                    throw new CouldNotDeserializeException("DataMessageByteBuff cannot read a string without knowing its length");
+                    throw new ParsingException("DataMessageByteBuff cannot read a string without knowing its length");
                 }
 
                 int textLen = ((Number) args[i - 1]).intValue();
@@ -108,11 +109,11 @@ public class DataMessageByteBuff {
             injectRegistryIntoAnnotatedMethods(obj);
             return obj;
         } catch (InstantiationException e) {
-            throw new CouldNotDeserializeException("DataMessageByteBuff cannot deserialize type " + clazz.getName(), e);
+            throw new ParsingException("DataMessageByteBuff cannot deserialize type " + clazz.getName(), e);
         } catch (IllegalAccessException e) {
-            throw new CouldNotDeserializeException("DataMessageByteBuff cannot deserialize type " + clazz.getName(), e);
+            throw new ParsingException("DataMessageByteBuff cannot deserialize type " + clazz.getName(), e);
         } catch (InvocationTargetException e) {
-            throw new CouldNotDeserializeException("DataMessageByteBuff cannot deserialize type " + clazz.getName(), e);
+            throw new ParsingException("DataMessageByteBuff cannot deserialize type " + clazz.getName(), e);
         }
     }
 
@@ -127,10 +128,10 @@ public class DataMessageByteBuff {
                         try {
                             method.invoke(obj, registry);
                         } catch (Exception e) {
-                            throw new CouldNotDeserializeException("Exception injecting component registry into binary class " + klass.getName());
+                            throw new ParsingException("Exception injecting component registry into binary class " + klass.getName());
                         }
                     } else {
-                        throw new CouldNotDeserializeException("@JacksonInject only currently supported for UuidComponentRegistry on classes created with DataMessageByteBuff. Found " + method.getClass() + "." + method.getName());
+                        throw new ParsingException("@JacksonInject only currently supported for UuidComponentRegistry on classes created with DataMessageByteBuff. Found " + method.getClass() + "." + method.getName());
                     }
                 }
             }

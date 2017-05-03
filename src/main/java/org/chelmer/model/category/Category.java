@@ -1,31 +1,24 @@
 package org.chelmer.model.category;
 
 import com.fasterxml.jackson.annotation.JacksonInject;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.chelmer.clientimpl.UuidComponentRegistry;
-import org.chelmer.model.UuidComponent;
+import org.chelmer.model.ComponentBase;
 import org.chelmer.model.entity.LoxUuid;
 
-public class Category implements UuidComponent {
+public class Category extends ComponentBase {
     private final LoxUuid uuid;
-    private final String name;
     private final String image;
     private final int defaultRating;
     private final boolean isFavorite;
     private final CategoryType type;
     private final String color;
-    private Double value = null;
 
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    public Category(LoxUuid uuid, String name, String image, int defaultRating, boolean isFavorite, CategoryType type, String color) {
+    @JsonCreator
+    public Category(@JsonProperty("uuid") LoxUuid uuid, @JsonProperty("name") String name, @JsonProperty("image") String image, @JsonProperty("defaultRating") int defaultRating, @JsonProperty("isFavorite") boolean isFavorite, @JsonProperty("type") CategoryType type, @JsonProperty("color") String color) {
+        super(name);
         this.uuid = uuid;
-        this.name = name;
         this.image = image;
         this.defaultRating = defaultRating;
         this.isFavorite = isFavorite;
@@ -40,10 +33,6 @@ public class Category implements UuidComponent {
 
     public LoxUuid getUuid() {
         return uuid;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getImage() {

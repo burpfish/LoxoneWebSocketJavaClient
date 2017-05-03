@@ -1,6 +1,469 @@
+Component is ...
+State{uuids=[0e4fa361-02d2-818b-ffff5b462cb8ca27],
+name='Lounge lighting controller(activeScene)',
+control=Control{name='Lounge lighting controller',
+type=LIGHTCONTROLLER,
+uuid=0e4fa361-02d2-818e-ffff504f94000000}}
+
+
+parent ...
+Control{name='Lounge lighting controller', type=LIGHTCONTROLLER, uuid=0e4fa361-02d2-818e-ffff504f94000000}
+
+Pull handlers up to the web socket client
+Then we need that extracted out
+Or ... a
+
+
+
+Mock client
+- extend LWSC
+- override connect, request status, register for ...
+
+
+
 
 * signed vs unsigned
 * Sort out tests (including record binary files, mean bean)
 * Update the state of the thing when we get an update request
 * Add keep alive
 * Add a better way to keep it alive (with a means to shut it down)
+
+
+Add type to UUid thing
+GlobalState with name, oldvalue, new value
+
+StateChange
+State - do we want the parent ... ?
+
+
+This
+OR
+state with a type
+
+type that can convert stuff ... ?
+
+OR ... type and pass in a converter ... and return the type ...
+
+
+
+
+
+
+
+C:\Projects\Tools\jdk1.8.0_111\bin\java -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:50126,suspend=y,server=n -ea -javaagent:C:\Users\burfo\.IdeaIC2016.3\system\groovyHotSwap\gragent.jar -Dfile.encoding=UTF-8 -classpath "C:\Projects\Tools\IntelliJ IDEA Community Edition 2016.3\lib\idea_rt.jar;C:\Projects\Tools\IntelliJ IDEA Community Edition 2016.3\plugins\junit\lib\junit-rt.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\charsets.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\deploy.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\access-bridge-64.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\cldrdata.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\dnsns.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\jaccess.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\jfxrt.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\localedata.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\nashorn.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\sunec.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\sunjce_provider.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\sunmscapi.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\sunpkcs11.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\ext\zipfs.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\javaws.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\jce.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\jfr.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\jfxswt.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\jsse.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\management-agent.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\plugin.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\resources.jar;C:\Projects\Tools\jdk1.8.0_111\jre\lib\rt.jar;C:\Projects\LoxoneWebSocketClient\build\classes\test;C:\Projects\LoxoneWebSocketClient\build\resources\test;C:\Projects\LoxoneWebSocketClient\build\classes\main;C:\Projects\LoxoneWebSocketClient\build\resources\main;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.8.6\2ef7b1cc34de149600f5e75bc2d5bf40de894e60\jackson-core-2.8.6.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.8.6\9577018f9ce3636a2e1cb0a0c7fe915e5098ded5\jackson-annotations-2.8.6.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.8.6\c43de61f74ecc61322ef8f402837ba65b0aa2bf4\jackson-databind-2.8.6.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.module\jackson-module-parameter-names\2.8.6\67ae6ac2c5c124d79deaeb86ccfee1fe5c71d43\jackson-module-parameter-names-2.8.6.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.datatype\jackson-datatype-jdk8\2.8.6\5e8c30655c393109c5fcb1716e9546891170abe7\jackson-datatype-jdk8-2.8.6.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.datatype\jackson-datatype-jsr310\2.8.6\85837b90877661b30c96117608044d1da8892dc3\jackson-datatype-jsr310-2.8.6.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\io.netty\netty-all\4.1.8.Final\bd460998f27fc3d6078a3560c0dbf6de31c36597\netty-all-4.1.8.Final.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\commons-cli\commons-cli\1.3.1\1303efbc4b181e5a58bf2e967dc156a3132b97c0\commons-cli-1.3.1.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\org.slf4j\slf4j-api\1.7.23\432be7c915d6389efd927e32937a30f7d5556f3e\slf4j-api-1.7.23.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\org.slf4j\slf4j-simple\1.7.23\ed114279b980db2c7d5fde0873fb93b43612bd03\slf4j-simple-1.7.23.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\junit\junit\4.11\4e031bb61df09069aeb2bffb4019e7a5034a4ee0\junit-4.11.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\org.mockito\mockito-core\2.7.11\6f36d8974e194459f92e06ac3a0e0d13ca388ef4\mockito-core-2.7.11.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy\1.6.5\25cf61dea06b7402a91bd8435af4ecfc0dd5935b\byte-buddy-1.6.5.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.6.5\1a1e2189a7dcca6e861a4d71ffbda621f74072d6\byte-buddy-agent-1.6.5.jar;C:\Users\burfo\.gradle\caches\modules-2\files-2.1\org.objenesis\objenesis\2.5\612ecb799912ccf77cba9b3ed8c813da086076e9\objenesis-2.5.jar" com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 org.chelmer.clientimpl.PlaybackTest,playbackTest
+Connected to the target VM, address: '127.0.0.1:50126', transport: 'socket'
+[main] ERROR org.chelmer.clientimpl.WebSocketClientHandler - Channel is null - Could not send text massage: authenticate/9c4a7f86494973f674f04abe5331a61e4ce84286
+
+  operatingMode
+  sunrise
+  sunset
+  notifications
+  modifications
+
+
+
+
+
+State step not declared for type org.chelmer.model.control.controlTypes.LightingControl
+State max not declared for type org.chelmer.model.control.controlTypes.LightingControl
+State min not declared for type org.chelmer.model.control.controlTypes.LightingControl
+State position not declared for type org.chelmer.model.control.controlTypes.LightingControl
+
+
+[main] WARN org.chelmer.model.state.GlobalStateItem - Unknown Global State: plannedTasks
+[main] WARN org.chelmer.model.state.GlobalStateItem - Unknown Global State: pastTasks
+
+operatingMode :  -> Saturday
+    org.chelmer.model.state.GlobalState
+
+sunrise :  -> 07:00
+    org.chelmer.model.state.GlobalState
+
+sunset :  -> 17:29
+    org.chelmer.model.state.GlobalState
+
+notifications :  -> 0.0
+    org.chelmer.model.state.GlobalState
+
+modifications :  -> 0.0
+    org.chelmer.model.state.GlobalState
+
+All off(active) :  -> true
+    org.chelmer.model.state.BinaryState
+
+Downstairs All Off(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Upstairs All Off(active) :  -> true
+    org.chelmer.model.state.BinaryState
+
+Danny's lighing controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Danny's lighing controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Danny's lighing controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Danny's lighing controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Dannys bedroom light (central)(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+W C lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+W C lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+W C lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+W C lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+W/C lights(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Games lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Games lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Games lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Games lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Games room light (central)(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Hall lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Hall lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Hall lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Hall lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Hallway lights(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Jakes lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Jakes lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Jakes lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Jakes lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Jakes bedroom light (central)(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Music :  -> 1.0
+    org.chelmer.model.control.controlTypes.RemoteControl
+
+Music(timeout) :  -> 3000
+    org.chelmer.model.state.IntegerState
+
+Music(mode) :  -> 1
+    org.chelmer.model.state.IntegerState
+
+Music(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Sonos :  -> 0.0
+    org.chelmer.model.control.controlTypes.ApplicationControl
+
+Kitchen lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Kitchen lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Kitchen lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Kitchen lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Kitchen spots (6)(position) :  -> 0.0
+    org.chelmer.model.state.State
+
+Breakfast room chandalier and alcove lights(min) :  -> 0.0
+    org.chelmer.model.state.State
+
+Breakfast room chandalier and alcove lights(max) :  -> 100.0
+    org.chelmer.model.state.State
+
+Breakfast room chandalier and alcove lights(step) :  -> 2.0
+    org.chelmer.model.state.State
+
+Island lights (3)(position) :  -> 0.0
+    org.chelmer.model.state.State
+
+Pelmet lights(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Dining room table lights (3)(position) :  -> 0.0
+    org.chelmer.model.state.State
+
+Breakfast room chandalier and alcove lights(position) :  -> 0.0
+    org.chelmer.model.state.State
+
+Keep Kitchen Lights On :  -> 0.0
+    org.chelmer.model.control.controlTypes.SwitchControl
+
+Keep Kitchen Lights On(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Intelligent room controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.IRoomControllerControl
+
+Intelligent room controller(tempTarget) :  -> 20
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(tempActual) :  -> 19
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(error) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(mode) :  -> 3
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(serviceMode) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(currHeatTempIx) :  -> 1
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(currCoolTempIx) :  -> 1
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(override) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(isPreparing) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(openWindow) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Intelligent room controller(overrideTotal) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(movement) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(manualMode) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Intelligent room controller(temperatures) :  -> 4.0
+    org.chelmer.model.state.State
+
+Intelligent room controller(temperatures) : 4.0 -> 20.0
+    org.chelmer.model.state.State
+
+Intelligent room controller(temperatures) : 20.0 -> 20.0
+    org.chelmer.model.state.State
+
+Intelligent room controller(temperatures) : 20.0 -> 3.0
+    org.chelmer.model.state.State
+
+Intelligent room controller(temperatures) : 3.0 -> 25.0
+    org.chelmer.model.state.State
+
+Intelligent room controller(temperatures) : 25.0 -> 3.0
+    org.chelmer.model.state.State
+
+Intelligent room controller(temperatures) : 3.0 -> -1.5
+    org.chelmer.model.state.State
+
+Heating(mode) :  -> 8
+    org.chelmer.model.state.IntegerState
+
+Cooling(mode) :  -> 8
+    org.chelmer.model.state.IntegerState
+
+Landing lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Landing lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Landing lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Landing lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Landing lights(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Lounge lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Lounge lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Lounge lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Lounge lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Lounge light (central)(position) :  -> 0.0
+    org.chelmer.model.state.State
+
+Lounge light (central)(min) :  -> 0.0
+    org.chelmer.model.state.State
+
+Lounge light (central)(max) :  -> 100.0
+    org.chelmer.model.state.State
+
+Lounge light (central)(step) :  -> 100.0
+    org.chelmer.model.state.State
+
+Dave and Anna's Bedroom Lights :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Dave and Anna's Bedroom Lights(activeScene) :  -> 9
+    org.chelmer.model.state.IntegerState
+
+Dave and Anna's Bedroom Lights(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Dave and Anna's Bedroom Lights(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Dave and Anna bedrrom light (central)(position) :  -> 100.0
+    org.chelmer.model.state.State
+
+Dave and Anna bedrrom light (central)(min) :  -> 0.0
+    org.chelmer.model.state.State
+
+Dave and Anna bedrrom light (central)(max) :  -> 100.0
+    org.chelmer.model.state.State
+
+Dave and Anna bedrrom light (central)(step) :  -> 100.0
+    org.chelmer.model.state.State
+
+New bathroom lghting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+New bathroom lghting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+New bathroom lghting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+New bathroom lghting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+O266(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Push-button :  -> 0.0
+    org.chelmer.model.control.controlTypes.SwitchControl
+
+Push-button(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+away_mode :  -> 0.0
+    org.chelmer.model.control.controlTypes.SwitchControl
+
+away_mode(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kichen_cooking_and_breakfast_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kitchen_all_off_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kitchen_all_on_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kitchen_breakfast_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kitchen_cooking_and_dining_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kitchen_cooking_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kitchen_dining_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_kitchen_homework_scene(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+ext_outside_lights(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+holiday_mode(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Office lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Office lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Office lighting controller(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Office lighting controller(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Office light (central)(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Delay when outside lights off :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Delay when outside lights off(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Delay when outside lights off(presenceFrom) :  -> 0.0
+    org.chelmer.model.state.State
+
+Delay when outside lights off(presenceTo) :  -> 0.0
+    org.chelmer.model.state.State
+
+Old bathroom lights(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Outside lights lighting controller :  -> 0.0
+    org.chelmer.model.control.controlTypes.LightingControl
+
+Outside lights lighting controller(activeScene) :  -> 0
+    org.chelmer.model.state.IntegerState
+
+Outside Light 1(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Outside light 2(active) :  -> false
+    org.chelmer.model.state.BinaryState
+
+Autopilots :  -> 0.0
+    org.chelmer.model.autopilot.Autopilot
+
+Autopilots(changed) :  -> 0.0
+    org.chelmer.model.autopilot.AutopilotState
+
+Process finished with exit code 0

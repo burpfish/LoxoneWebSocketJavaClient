@@ -1,6 +1,7 @@
 package org.chelmer.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.chelmer.clientimpl.LoxoneWebSocketClient;
 import org.chelmer.clientimpl.UuidComponentRegistry;
 import org.chelmer.deserialize.ObjectMapperFactory;
 import org.junit.Before;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 
 public class DeserializeLoxoneConfigTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeserializeLoxoneConfigTest.class);
@@ -22,7 +24,7 @@ public class DeserializeLoxoneConfigTest {
 
     @Before
     public void init() {
-        this.mapper = new ObjectMapperFactory().createObjectMapper(new UuidComponentRegistry());
+        this.mapper = new ObjectMapperFactory().createObjectMapper(new UuidComponentRegistry(), mock(LoxoneWebSocketClient.class));
     }
 
 

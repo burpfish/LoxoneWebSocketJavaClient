@@ -2,7 +2,7 @@ package org.chelmer.model.miniserver;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.chelmer.exceptions.CouldNotDeserializeException;
+import org.chelmer.exceptions.ParsingException;
 
 public enum MiniserverType {
     REGULAR(0),
@@ -22,6 +22,6 @@ public enum MiniserverType {
             }
         }
 
-        throw new CouldNotDeserializeException("Invalid value for MiniserverType: " + jsonNode.get("value").asText());
+        throw new ParsingException("Invalid value for MiniserverType: " + jsonNode.get("value").asText());
     }
 }
