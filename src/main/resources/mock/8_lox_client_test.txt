@@ -1,0 +1,1 @@
+{"LL": { "control": "dev/sps/enablebinstatusupdate", "value": "1", "Code": "200"}}
